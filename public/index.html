@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Angular Material M3 Theme Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1060px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.5;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .instructions {
+            margin-bottom: 32px;
+        }
+
+        .instructions p {
+            margin: 0 0 14px;
+        }
+
+        .instructions code {
+            background: #f3f3f3;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+
+        .instructions pre {
+            background: #f3f3f3;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0 16px;
+        }
+
+        .instructions pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .theme-form {
+            margin: 32px 0;
+        }
+
+        .theme-builder {
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 14px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                0 12px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .theme-builder-header {
+            padding: 24px 26px;
+
+            background: #fafafa;
+
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .theme-builder-header h2 {
+            margin: 0 0 6px;
+            font-size: 1.4rem;
+        }
+
+        .theme-builder-header p {
+            margin: 0;
+            color: #666666;
+            font-size: 0.95rem;
+        }
+
+        .theme-colors-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+
+            padding: 24px 26px;
+        }
+
+        .theme-color-card {
+            padding: 18px;
+
+            border: 1px solid #e2e2e2;
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .theme-color-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 12px;
+        }
+
+        .theme-color-name {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .theme-color-help {
+            margin-top: 4px;
+
+            min-height: 40px;
+
+            color: #777777;
+
+            font-size: 0.84rem;
+        }
+
+        .theme-color-controls {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            margin-top: 16px;
+        }
+
+        .color-swatch {
+            width: 52px;
+            height: 42px;
+
+            padding: 3px;
+
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            cursor: pointer;
+        }
+
+        .color-swatch::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-swatch::-webkit-color-swatch {
+            border: none;
+            border-radius: 5px;
+        }
+
+        .color-swatch::-moz-color-swatch {
+            border: none;
+            border-radius: 5px;
+        }
+
+        .hex-input {
+            box-sizing: border-box;
+
+            flex: 1;
+            min-width: 0;
+
+            padding: 10px 11px;
+
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+
+            font-family: Consolas, monospace;
+            font-size: 0.9rem;
+
+            background: #ffffff;
+        }
+
+        .hex-input:focus {
+            outline: none;
+
+            border-color: #777777;
+
+            box-shadow:
+                0 0 0 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .color-swatch:disabled,
+        .hex-input:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .required-badge {
+            padding: 2px 7px;
+
+            border-radius: 999px;
+
+            background: #eeeeee;
+
+            color: #555555;
+
+            font-size: 0.7rem;
+            font-weight: normal;
+        }
+
+        /*
+         * Toggle switch
+         */
+
+        .switch {
+            position: relative;
+
+            flex: 0 0 auto;
+
+            width: 38px;
+            height: 22px;
+
+            cursor: pointer;
+        }
+
+        .switch input {
+            position: absolute;
+
+            opacity: 0;
+
+            width: 0;
+            height: 0;
+        }
+
+        .switch-track {
+            position: absolute;
+            inset: 0;
+
+            border-radius: 999px;
+
+            background: #c7c7c7;
+
+            transition: background 0.2s ease;
+        }
+
+        .switch-track::after {
+            content: "";
+
+            position: absolute;
+
+            top: 3px;
+            left: 3px;
+
+            width: 16px;
+            height: 16px;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 1px 4px rgba(0, 0, 0, 0.25);
+
+            transition: transform 0.2s ease;
+        }
+
+        .switch input:checked + .switch-track {
+            background: #333333;
+        }
+
+        .switch input:checked + .switch-track::after {
+            transform: translateX(16px);
+        }
+
+        .switch input:focus-visible + .switch-track {
+            outline: 3px solid rgba(0, 0, 0, 0.14);
+            outline-offset: 2px;
+        }
+
+        /*
+         * Generate section
+         */
+
+        .theme-builder-footer {
+            padding: 20px 26px 24px;
+
+            border-top: 1px solid #e7e7e7;
+
+            background: #fafafa;
+        }
+
+        .generate-button {
+            width: 100%;
+
+            padding: 13px 18px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #222222;
+
+            color: #ffffff;
+
+            font-size: 1rem;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease,
+                box-shadow 0.15s ease,
+                transform 0.1s ease;
+        }
+
+        .generate-button:hover {
+            background: #000000;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.14);
+        }
+
+        .generate-button:active {
+            transform: translateY(1px);
+        }
+
+        .generate-button:disabled {
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+            box-shadow: none;
+        }
+
+        #status {
+            margin-top: 12px;
+
+            text-align: center;
+
+            color: #555555;
+
+            font-size: 0.9rem;
+        }
+
+        /*
+         * Mobile
+         */
+
+        @media (max-width: 650px) {
+
+            .theme-colors-grid {
+                grid-template-columns: 1fr;
+
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .theme-builder-header,
+            .theme-builder-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>
+        Angular Material M3 CSS Theme Generator For NDE
+    </h1>
+
+
+    <div class="instructions">
+
+        <p>
+            Use this tool to create a custom color theme for Primo NDE. The colors that are generated are based on the colors you choose below.
+            Select a primary color and optionally provide custom secondary,
+            tertiary, or neutral colors. <font style="text-decoration:underline;font-weight:bold;">Any colors that are not customized
+            will be generated automatically based on the colors you do choose.</font>
+        </p>
+
+        <p>
+            Once the theme has been generated, place the downloaded
+            <code>customized-theme.css</code> file in the
+            <code>[Your-View-Code]/assets/css</code> folder of your Primo NDE customization package.
+        </p>
+
+        <p>
+            Then add the following line to your package's
+            <code>custom.css</code> file:
+        </p>
+
+        <pre><code>@import url("customized-theme.css");</code></pre>
+
+        <p style="color:red;background:yellow;">
+            After deploying the updated customization package, clear or
+            reset your browser cache before viewing NDE. The previous theme
+            may remain visible until the cached CSS is refreshed.
+        </p>
+
+    </div>
+
+
+    <form id="themeForm" class="theme-form">
+
+        <div class="theme-builder">
+
+            <div class="theme-builder-header">
+
+                <h2>
+                    Build Your Theme
+                </h2>
+
+                <p>
+                    Choose a primary color, then optionally override the
+                    secondary, tertiary, and neutral palettes.
+                </p>
+
+            </div>
+
+
+            <div class="theme-colors-grid">
+
+                <!-- Primary -->
+
+                <div class="theme-color-card">
+
+                    <div class="theme-color-name">
+
+                        Primary
+
+                        <span class="required-badge">
+                            Required
+                        </span>
+
+                    </div>
+
+                    <div class="theme-color-help">
+                        Main color used throughout the interface.
+                    </div>
+
+                    <div class="theme-color-controls">
+
+                        <input
+                            type="color"
+                            id="primary"
+                            class="color-swatch"
+                            aria-label="Primary color"
+                        >
+
+                        <input
+                            type="text"
+                            id="primaryText"
+                            class="hex-input"
+                            aria-label="Primary color hex value"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Tertiary -->
+
+                <div class="theme-color-card">
+
+                    <div class="theme-color-header">
+
+                        <div>
+
+                            <div class="theme-color-name">
+                                Tertiary
+                            </div>
+
+                            <div class="theme-color-help">
+                                Additional accent color for the theme.
+                            </div>
+
+                        </div>
+
+
+                        <label
+                            class="switch"
+                            title="Customize tertiary color"
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="useTertiary"
+                            >
+
+                            <span class="switch-track"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="theme-color-controls">
+
+                        <input
+                            type="color"
+                            id="tertiary"
+                            class="color-swatch"
+                            value="#ffffff"
+                            disabled
+                            aria-label="Tertiary color"
+                        >
+
+                        <input
+                            type="text"
+                            id="tertiaryText"
+                            class="hex-input"
+                            value="#ffffff"
+                            disabled
+                            aria-label="Tertiary color hex value"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Secondary -->
+
+                <div class="theme-color-card">
+
+                    <div class="theme-color-header">
+
+                        <div>
+
+                            <div class="theme-color-name">
+                                Secondary
+                            </div>
+
+                            <div class="theme-color-help">
+                                Supporting color used for secondary elements.
+                            </div>
+
+                        </div>
+
+
+                        <label
+                            class="switch"
+                            title="Customize secondary color"
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="useSecondary"
+                            >
+
+                            <span class="switch-track"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="theme-color-controls">
+
+                        <input
+                            type="color"
+                            id="secondary"
+                            class="color-swatch"
+                            value="#ffffff"
+                            disabled
+                            aria-label="Secondary color"
+                        >
+
+                        <input
+                            type="text"
+                            id="secondaryText"
+                            class="hex-input"
+                            value="#ffffff"
+                            disabled
+                            aria-label="Secondary color hex value"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Neutral -->
+
+                <div class="theme-color-card">
+
+                    <div class="theme-color-header">
+
+                        <div>
+
+                            <div class="theme-color-name">
+                                Neutral
+                            </div>
+
+                            <div class="theme-color-help">
+                                Influences backgrounds, surfaces, and neutral tones.
+                            </div>
+
+                        </div>
+
+
+                        <label
+                            class="switch"
+                            title="Customize neutral color"
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="useNeutral"
+                            >
+
+                            <span class="switch-track"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="theme-color-controls">
+
+                        <input
+                            type="color"
+                            id="neutral"
+                            class="color-swatch"
+                            value="#ffffff"
+                            disabled
+                            aria-label="Neutral color"
+                        >
+
+                        <input
+                            type="text"
+                            id="neutralText"
+                            class="hex-input"
+                            value="#ffffff"
+                            disabled
+                            aria-label="Neutral color hex value"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="theme-builder-footer">
+
+                <button
+                    type="submit"
+                    id="generateButton"
+                    class="generate-button"
+                >
+                    Generate Theme CSS
+                </button>
+
+                <div id="status"></div>
+
+            </div>
+
+        </div>
+
+    </form>
+	<footer>
+    <hr style="opacity:0.5;">
+
+    <p>
+        This tool was created by PASCAL to make customizing Primo NDE colors easier for PASCAL member institutions. It provides a simpler alternative to creating an entire custom module just to generate a custom Material theme.
+    </p>
+
+    <div id="PASCAL_Logo"></div>
+
+    <style>
+        #PASCAL_Logo {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: -10px;
+            margin-top: -10px;
+            opacity: .75;
+            height: 40px;
+            width: 350px;
+			background:url('data:image/png;base64,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egZ3S+Cc7u347WfrsCUKKGnHd6Stx+KtlVs4rWMcmyMuqoqF8G19lAaXUtSaxq2n/2Nfh+GuqvMTvDXb2xakLlx/xEw7FZm8KKVDYeqiTbsWTwgP9fbYmpiQFyzbvGf9vMVnJ+YlLz5kfxj+9g+Gx68Z3jOy4zW0H8p/hs/zb2JT3ZOBysZdy/OWDvDV1PjtR875cOc5ObU8rb+r3uWoTs8Plk5FkZyyzFmITnDUPfGBYNmaluLeVXV+wkOD3ml+Hh5Djt6B1zCMI9JoHW33K9/4tsB5qmwQwatKHOjkgmDpo4c7vyOBGXgNwzgopoTSA45Y/UW0ViRakZ+2sPpw52QYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYx6b/BYdhK0E4SZ6bAAADmmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQnPz4KPHg6eG1wbWV0YSB4bWxuczp4PSdhZG9iZTpuczptZXRhLyc+CjxyZGY6UkRGIHhtbG5zOnJkZj0naHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyc+CgogPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9JycKICB4bWxuczpBdHRyaWI9J2h0dHA6Ly9ucy5hdHRyaWJ1dGlvbi5jb20vYWRzLzEuMC8nPgogIDxBdHRyaWI6QWRzPgogICA8cmRmOlNlcT4KICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0nUmVzb3VyY2UnPgogICAgIDxBdHRyaWI6Q3JlYXRlZD4yMDIwLTEwLTE0PC9BdHRyaWI6Q3JlYXRlZD4KICAgICA8QXR0cmliOkV4dElkPmFmYWU5ZmVkLWI5ZjEtNGE3Yy05MjFjLTQwMjYyYzVmNDRlMjwvQXR0cmliOkV4dElkPgogICAgIDxBdHRyaWI6RmJJZD41MjUyNjU5MTQxNzk1ODA8L0F0dHJpYjpGYklkPgogICAgIDxBdHRyaWI6VG91Y2hUeXBlPjI8L0F0dHJpYjpUb3VjaFR5cGU+CiAgICA8L3JkZjpsaT4KICAgPC9yZGY6U2VxPgogIDwvQXR0cmliOkFkcz4KIDwvcmRmOkRlc2NyaXB0aW9uPgoKIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PScnCiAgeG1sbnM6cGRmPSdodHRwOi8vbnMuYWRvYmUuY29tL3BkZi8xLjMvJz4KICA8cGRmOkF1dGhvcj5lamVua2luc29uPC9wZGY6QXV0aG9yPgogPC9yZGY6RGVzY3JpcHRpb24+CgogPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9JycKICB4bWxuczp4bXA9J2h0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8nPgogIDx4bXA6Q3JlYXRvclRvb2w+Q2FudmE8L3htcDpDcmVhdG9yVG9vbD4KIDwvcmRmOkRlc2NyaXB0aW9uPgo8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSdyJz8+YaNlLwAAAABJRU5ErkJggg==');
+            background-repeat: no-repeat;
+        }
+    </style>
+</footer>
+    <script>
+        const form = document.getElementById('themeForm');
+        const status = document.getElementById('status');
+        const generateButton =
+            document.getElementById('generateButton');
+
+        const colorNames = [
+            'primary',
+            'secondary',
+            'tertiary',
+            'neutral'
+        ];
+		
+		function randomHexColor() {
+			return '#' + Math.floor(Math.random() * 0x1000000)
+				.toString(16)
+				.padStart(6, '0');
+		}
+
+		const randomPrimary = randomHexColor();
+
+		document.getElementById('primary').value = randomPrimary;
+		document.getElementById('primaryText').value = randomPrimary;
+
+
+        /*
+         * Keep color picker and text input synchronized
+         */
+
+        colorNames.forEach(name => {
+
+            const picker =
+                document.getElementById(name);
+
+            const text =
+                document.getElementById(name + 'Text');
+
+
+            picker.addEventListener('input', () => {
+
+                text.value = picker.value;
+
+            });
+
+
+            text.addEventListener('input', () => {
+
+                if (/^#[0-9a-fA-F]{6}$/.test(text.value)) {
+
+                    picker.value = text.value;
+
+                }
+
+            });
+
+        });
+
+
+        /*
+         * Enable / disable optional color fields
+         */
+
+        function setupOptionalColor(name) {
+
+            const capitalized =
+                name.charAt(0).toUpperCase() +
+                name.slice(1);
+
+            const checkbox =
+                document.getElementById(
+                    'use' + capitalized
+                );
+
+            const picker =
+                document.getElementById(name);
+
+            const text =
+                document.getElementById(
+                    name + 'Text'
+                );
+
+
+            checkbox.addEventListener(
+                'change',
+                () => {
+
+                    picker.disabled =
+                        !checkbox.checked;
+
+                    text.disabled =
+                        !checkbox.checked;
+
+                }
+            );
+
+        }
+
+
+        setupOptionalColor('secondary');
+        setupOptionalColor('tertiary');
+        setupOptionalColor('neutral');
+
+
+        /*
+         * Generate theme
+         */
+
+        form.addEventListener(
+            'submit',
+            async event => {
+
+                event.preventDefault();
+
+
+                status.textContent =
+                    'Generating theme...';
+
+                generateButton.disabled = true;
+
+
+                const body = {
+
+                    primary:
+                        document
+                            .getElementById('primary')
+                            .value,
+
+                    secondary:
+                        document
+                            .getElementById('useSecondary')
+                            .checked
+                            ? document
+                                .getElementById('secondary')
+                                .value
+                            : null,
+
+                    tertiary:
+                        document
+                            .getElementById('useTertiary')
+                            .checked
+                            ? document
+                                .getElementById('tertiary')
+                                .value
+                            : null,
+
+                    neutral:
+                        document
+                            .getElementById('useNeutral')
+                            .checked
+                            ? document
+                                .getElementById('neutral')
+                                .value
+                            : null
+
+                };
+
+
+                try {
+
+                    const response = await fetch(
+                        'generate-theme',
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body:
+                                JSON.stringify(body)
+                        }
+                    );
+
+
+                    if (!response.ok) {
+
+                        const message =
+                            await response.text();
+
+                        throw new Error(message);
+
+                    }
+
+
+                    const blob =
+                        await response.blob();
+
+                    const url =
+                        URL.createObjectURL(blob);
+
+                    const link =
+                        document.createElement('a');
+
+
+                    link.href = url;
+
+                    link.download =
+                        'customized-theme.css';
+
+
+                    document.body.appendChild(link);
+
+                    link.click();
+
+                    link.remove();
+
+                    URL.revokeObjectURL(url);
+
+
+                    status.textContent =
+                        'Theme generated successfully.';
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                    status.textContent =
+                        'Error generating theme: ' +
+                        error.message;
+
+                }
+                finally {
+
+                    generateButton.disabled = false;
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

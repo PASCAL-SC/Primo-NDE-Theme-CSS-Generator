@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Temporary generated theme files
+work/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build / cache files
+.angular/
+.sass-cache/
+.cache/
+
+# Generated output
+customized-theme.css
+m3-theme.scss
+
+# Temporary files
+*.tmp
+*.temp
