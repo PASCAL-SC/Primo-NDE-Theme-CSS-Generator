@@ -51,13 +51,9 @@ It:
 
 ### `public/index.html`
 
-Contains the complete browser interface, including:
+Contains the complete browser interface. Later on another page might be added on for easy additions like those found here:
 
-- Theme instructions
-- Color pickers
-- Optional palette toggles
-- Theme generation button
-- Download logic
+- https://flvc.libguides.com/nde_mixpanel_implementation/css
 
 ### `templates/_customized-theme.scss`
 
