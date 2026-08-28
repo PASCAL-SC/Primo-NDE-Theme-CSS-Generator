@@ -1,4 +1,4 @@
-# Alma NDE Angular Material M3 Theme Generator
+# Primo NDE Angular Material M3 Theme Generator
 
 This project was created by PASCAL to make NDE color customization easier for member institutions without requiring the creation of an entire custom Angular module just to change theme colors.
 
@@ -8,7 +8,7 @@ https://pascalsc.org/theme-generator/
 
 ---
 
-## Using the Generated Theme in Alma NDE
+## Using the Generated Theme in Primo NDE
 
 After generating the theme, place the `customized-theme.css` inside the `[YOUR_VIEW]/assets/css` folder of your Alma customization package.
 
@@ -57,7 +57,7 @@ Contains the complete browser interface. Later on another page might be added on
 
 ### `templates/_customized-theme.scss`
 
-Wraps the generated Material theme and produces the CSS used by Alma NDE.
+Wraps the generated Material theme and produces the CSS used by Primo NDE.
 
 Example:
 
