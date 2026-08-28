@@ -10,13 +10,7 @@ https://pascalsc.org/theme-generator/
 
 ## Using the Generated Theme in Alma NDE
 
-After generating the theme, place:
-
-```text
-customized-theme.css
-```
-
-inside the `[YOUR_VIEW]/assets/css` folder of your Alma customization package.
+After generating the theme, place the `customized-theme.css` inside the `[YOUR_VIEW]/assets/css` folder of your Alma customization package.
 
 Then add the following line to your package's `custom.css` file:
 
