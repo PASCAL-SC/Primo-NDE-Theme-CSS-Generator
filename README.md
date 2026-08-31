@@ -139,3 +139,4 @@ The resulting CSS contains Angular Material component variables and Material sys
 ```
 
 ---
+Some parts of this codebase were generated or assisted by **AI development tools** (such as GitHub Copilot or Claude). 
